@@ -10,6 +10,7 @@ contract Idea is ERC721 {
         string category;
         uint initialValue;
         uint actualValue;
+        bool setForSale;
         }
 
 
@@ -21,11 +22,11 @@ contract Idea is ERC721 {
 
 
 
-    function addIdea(uint _id, string _ideaType, string _content, string _category, uint _initialValue) public {
+    function addIdea(uint _id, string _ideaType, string _content, string _category, uint _initialValue , bool _setForSale) public {
         require(_id > 0,"IDEA CONTRACT ERROR: Idea ID cann't be negitive value");
         require(!_exists(_id),"IDEA CONTRACT ERROR: Idea ID already exists");
         _mint(msg.sender, _ideaId);
-        Idea newIdea = Idea(_id, _ideaType, _content,_category, _initialValue,0);//the actualValue will be 0 at first 
+        Idea newIdea = Idea(_id, _ideaType, _content,_category, _initialValue,0, setForSale);//the actualValue will be 0 at first 
         ideas.push(newIdea);
     }
 
@@ -49,7 +50,15 @@ contract Idea is ERC721 {
         ideas[_id].actualValue += 0.0001;
     }
 
-    
+    function buyIdea (uint _ideaId) public{
+        require(exist(_ideaId), "IDEAS CONTRACT ERROR: There is no idea with this id");
+       safeTransferFrom(ownerOf(_ideaId), msg.sender, _ideaId);
+    }
+
+    function setIdeaForSale(uint _ideaId,bool _setForsale) public{
+        ideas[ideaId].setForSale = _setForsale;
+    }
+
 
     }
 
@@ -62,5 +71,3 @@ contract Idea is ERC721 {
 //      ownerOf(_ideaId);
 //  }
 
-
-}
