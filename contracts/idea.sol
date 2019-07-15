@@ -9,23 +9,27 @@ contract Idea is ERC721 {
         string content;
         string category;
         uint initialValue;
+        uint actualValue;
         }
 
 
     Idea[] ideas;//the array that contain all of the ideas 
-
-    mapping (address => ideas) students;
-
+    
 
 
 
-    function setIdea(uint _id, string _ideaType, string _content, string _category, uint _initialValue) public {
+
+
+
+    function addIdea(uint _id, string _ideaType, string _content, string _category, uint _initialValue) public {
         require(_id > 0,"IDEA CONTRACT ERROR: Idea ID cann't be negitive value");
         require(!_exists(_id),"IDEA CONTRACT ERROR: Idea ID already exists");
         _mint(msg.sender, _ideaId);
-        Idea newIdea = Idea(_id, _ideaType, _content,_category, _initialValue, msg.sender);
+        Idea newIdea = Idea(_id, _ideaType, _content,_category, _initialValue,0);//the actualValue will be 0 at first 
         ideas.push(newIdea);
     }
+
+    
 
     function getIdea(uint _id)public view returns(Idea){
         require(_id > 0,"IDEA CONTRACT ERROR: Idea ID cann't be negitive value");
@@ -33,7 +37,19 @@ contract Idea is ERC721 {
             if(ideas[i]==_id){
                 return ideas[i];
             }
+          }
         }
+
+    function getIdeas () public view returns (Idea[]){
+        return ideas;
+    }
+
+
+    function increaseActualValue(uint _id) public {
+        ideas[_id].actualValue += 0.0001;
+    }
+
+    
 
     }
 
