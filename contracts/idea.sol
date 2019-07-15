@@ -1,7 +1,9 @@
 pragma solidity ^0.5.0;
 
-import "node_modules/openzeppelin-solidity/contracts/token/ERC20/ERC20.sol";
+import "node_modules/openzeppelin-solidity/contracts/token/ERC721/ERC721.sol";
 
-contract Idea is ERC20 {
+contract Idea is ERC721 {
+ 
 
+ function ownerOf()
 }
