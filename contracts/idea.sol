@@ -1,5 +1,5 @@
 pragma solidity ^0.5.0;
-pragma experimental ABIEncoderV2; 
+pragma experimental ABIEncoderV2; //to return ideatype
 
 import "/Users/omamah/Etherdea/Etherdea/node_modules/openzeppelin-solidity/contracts/token/ERC721/ERC721.sol";
 
@@ -16,6 +16,7 @@ contract Idea is ERC721 {
 
     Idea[] ideas;//the array that contain all of the ideas 
 
+
     function addIdea(uint _id, string memory _ideaType, string memory _content, string memory _category, uint _initialValue , bool _setForSale) public {
         require(_id > 0,"IDEA CONTRACT ERROR: Idea ID cann't be negitive value");
         require(!_exists(_id),"IDEA CONTRACT ERROR: Idea ID already exists");
@@ -24,7 +25,6 @@ contract Idea is ERC721 {
         ideas.push(newIdea);
     }
 
-    
 
     function getIdea(uint _id)public view returns(Idea memory){
         require(_id > 0,"IDEA CONTRACT ERROR: Idea ID cann't be negitive value");
@@ -49,11 +49,11 @@ contract Idea is ERC721 {
         ideas[_ideaId].setForSale = _setForsale;
     }
 
-    // function buyIdea (uint _ideaId) public payable {
-    //     require(_exists(_ideaId), "IDEAS CONTRACT ERROR: There is no idea with this id");
-    //     //transfareing ether? 
-    //     safeTransferFrom(ownerOf(_ideaId), msg.sender, _ideaId);
-    // }
+    function buyIdea (uint _ideaId) public payable {
+        require(_exists(_ideaId), "IDEAS CONTRACT ERROR: There is no idea with this id");
+        msg.sender.send(ideas[_ideaId].actualValue);
+        safeTransferFrom(ownerOf(_ideaId), msg.sender, _ideaId);
+    }
 
   }
 
@@ -62,7 +62,4 @@ contract Idea is ERC721 {
 
 
 
-//  function ownerOf(uint256 _ideaId) public view returns (address) {
-//      ownerOf(_ideaId);
-//  }
 
