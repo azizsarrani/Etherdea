@@ -49,10 +49,15 @@ contract Idea is ERC721 {
         ideas[_ideaId].setForSale = _setForsale;
     }
 
-    function buyIdea (uint _ideaId) public payable {
+    function buyIdea (uint _ideaId) public payable returns(bool success) {
         require(_exists(_ideaId), "IDEAS CONTRACT ERROR: There is no idea with this id");
-        msg.sender.send(ideas[_ideaId].actualValue);
-        safeTransferFrom(ownerOf(_ideaId), msg.sender, _ideaId);
+        if(msg.sender.send(ideas[_ideaId].initialValue)){
+            safeTransferFrom(ownerOf(_ideaId), msg.sender, _ideaId);
+            success = true;}
+        else
+            success = false;
+
+
     }
 
   }

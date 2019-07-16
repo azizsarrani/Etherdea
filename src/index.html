@@ -1,57 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>TutorialToken - Wallet</title>
-
-    <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  </head>
+    <title>Job Application Form</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link href="./css/form.css" rel="stylesheet" type="text/css">  </head>
   <body>
-    <div class="container">
-      <div class="row">
-        <div class="col-xs-12 col-sm-8 col-sm-push-2">
-          <h1 class="text-center">TutorialToken</h1>
-          <hr/>
-          <br/>
+    <div class="testbox">
+      <form action="/">
+        <div class="banner">
+          <h1>Post your idea</h1>
         </div>
-      </div>
-
-      <div id="petsRow" class="row">
-        <div class="col-sm-6 col-sm-push-3 col-md-4 col-md-push-4">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title">My Wallet</h3>
+        <div class="item">
+          <p>Idea title:<span class="required">*</span></p>
+          <div class="name-item">
+            <input type="text" name="idea_title" placeholder="" required/>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="item">
+            <p>initial value <span class="required">*</span></p>
+            <input type="text" name="value" required="">
+          </div>
+        </div>
+        
+        <div class="position-item">
+          <div class="item">
+            <p>What is your idea<span class="required">*</span></p>
+            <select required>
+              <option value="1">App</option>
+              <option value="2">Design</option>
+              <option value="3">Research</option>
+            </select>
+          </div>
+        </div>
+        <div class="item">
+          <p>attach any file of the idea:</p>
+          <input type="text" name="providing"/>
+  <input type="file" name="file" accept="file/*">
+        </div>
+        <div class="question">
+          <p>Would you like to set the idea for sale? </p>
+          <div class="question-answer">
+            <div>
+              <input type="radio" value="none" id="radio_5" name="references" />
+              <label for="radio_5" class="radio"><span>Yes</span></label>
             </div>
-            <div class="panel-body">
-              <h4>Balance</h4>
-              <strong>Balance</strong>: <span id="TTBalance"></span> TT<br/><br/>
-              <h4>Transfer</h4>
-              <input type="text" class="form-control" id="TTTransferAddress" placeholder="Address" />
-              <input type="text" class="form-control" id="TTTransferAmount" placeholder="Amount" />
-              <button class="btn btn-primary" id="transferButton" type="button">Transfer</button>
+            <div>
+              <input type="radio" value="none" id="radio_6" name="references" />
+              <label for="radio_6" class="radio"><span>No</span></label>
             </div>
           </div>
         </div>
-      </div>
+        <div class="btn-block">
+          <button type="submit" href="/">Post the idea</button>
+        </div>
+      </form>
     </div>
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/web3.min.js"></script>
-    <script src="js/truffle-contract.js"></script>
-    <script src="js/app.js"></script>
   </body>
 </html>
