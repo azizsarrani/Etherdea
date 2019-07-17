@@ -1,4 +1,5 @@
 App = {
+
   web3Provider: null,
   contracts: {},
 
@@ -6,18 +7,31 @@ App = {
     return App.initWeb3();
   },
 
-  initWeb3: function() {
-    // Initialize web3 and set the provider to the testRPC.
-    if (typeof web3 !== 'undefined') {
-      App.web3Provider = web3.currentProvider;
-      web3 = new Web3(web3.currentProvider);
-    } else {
-      // set the provider you want from Web3.providers
-      App.web3Provider = new Web3.providers.HttpProvider('http://127.0.0.1:7545');
-      web3 = new Web3(App.web3Provider);
+  initWeb3: async function () {
+    // Modern dapp browsers...
+    if (window.ethereum) {
+      App.web3Provider = window.ethereum;
+      try {
+        // Request account access
+        await window.ethereum.enable();
+      } catch (error) {
+        // User denied account access...
+        console.error("User denied account access")
+      }
     }
+    // Legacy dapp browsers...
+    else if (window.web3) {
+      App.web3Provider = window.web3.currentProvider;
+    }
+    // If no injected web3 instance is detected, fall back to Ganache
+    else {
+      App.web3Provider = new Web3.providers.HttpProvider('http://localhost:7545');
+    }
+    web3 = new Web3(App.web3Provider);
+
     return App.initContract();
   },
+
 
   initContract: function() {
     $.getJSON('Idea.json', function(data) {
@@ -63,52 +77,44 @@ App = {
 
     var ideaInstance;
 
-    web3.eth.getAccounts(function(error, accounts) {
-      if (error) {
-        console.log("Error:"+ error);
-      }
-
-      var account = accounts[0];
-
-
       App.contracts.Idea.deployed().then(function(instance) {
         ideaInstance = instance;
-
-        return ideaInstance.addIdea(ideaType.toString() , "content" ,title.toString()  , initialValue, setForSale );
+        let sender=ideaInstance.getSender()
+        console.log(sender);
+        return ideaInstance.addIdea(ideaType.toString(),"content" ,title.toString()  , initialValue, setForSale );
       }).then(function(result) {
         alert('Added Successful!');
         //return App.getBalances();
       }).catch(function(err) {
         console.log(err.message);
       });
-    });
-  },
-
-  getBalances: function() {
-    console.log('Getting balances...');
-
-    var tutorialTokenInstance;
-
-    web3.eth.getAccounts(function(error, accounts) {
-      if (error) {
-        console.log(error);
-      }
-
-      var account = accounts[0];
-
-      App.contracts.TutorialToken.deployed().then(function(instance) {
-        tutorialTokenInstance = instance;
-
-        return tutorialTokenInstance.balanceOf(account);
-      }).then(function(result) {
-        balance = result.c[0];
-
-        $('#TTBalance').text(balance);
-      }).catch(function(err) {
-        console.log(err.message);
-      });
-    });
   }
+
+  // getBalances: function() {
+  //   console.log('Getting balances...');
+
+  //   var tutorialTokenInstance;
+
+  //   web3.eth.getAccounts(function(error, accounts) {
+  //     if (error) {
+  //       console.log(error);
+  //     }
+
+  //     var account = accounts[0];
+
+  //     App.contracts.TutorialToken.deployed().then(function(instance) {
+  //       tutorialTokenInstance = instance;
+
+  //       return tutorialTokenInstance.balanceOf(account);
+  //     }).then(function(result) {
+  //       balance = result.c[0];
+
+  //       $('#TTBalance').text(balance);
+  //     }).catch(function(err) {
+  //       console.log(err.message);
+  //     });
+  //   });
+  // }
 
 };
 

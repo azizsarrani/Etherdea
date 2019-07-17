@@ -15,27 +15,31 @@ contract Idea is ERC721 {
         }
 
     uint ideaIdCounter=0;
-    idea[] ideas;//the array that contain all of the ideas 
+    idea[] ideas;//the array that contain all of the ideas
 
-
-    function addIdea( string memory _ideaType, string memory _content, string memory _category, uint _initialValue , bool _setForSale) public {
-        require(ideaIdCounter > 0,"IDEA CONTRACT ERROR: Idea ID cann't be negitive value");
+    function getSender () public view returns(address){
+    return msg.sender;
+    }
+    function addIdea( string memory _ideaType, string memory _content, string memory _category, uint _initialValue, bool _setForSale) public {
         require(!_exists(ideaIdCounter),"IDEA CONTRACT ERROR: Idea ID already exists");
         _mint(msg.sender, ideaIdCounter);
-        idea memory newIdea = idea(ideaIdCounter, _ideaType, _content,_category, _initialValue,0, _setForSale);//the actualValue will be 0 at first 
+        //the actualValue will be 0 at first
+        idea memory newIdea = idea(ideaIdCounter, _ideaType, _content,_category, _initialValue,0, _setForSale);
         ideas.push(newIdea);
         ideaIdCounter++;
     }
 
 
-    // function getIdea(uint _id)public view returns(Idea memory){
-    //     require(_id > 0,"IDEA CONTRACT ERROR: Idea ID cann't be negitive value");
-    //     for (uint i = 0; i<ideas.length; i++){
-    //         if(ideas[i].id == _id){
-    //             return ideas[i];
-    //         }
-    //       }
-    //     }
+
+
+    function getIdea(uint _id)public view returns(Idea memory){
+        require(_id > 0,"IDEA CONTRACT ERROR: Idea ID cann't be negitive value");
+        for (uint i = 0; i<ideas.length; i++){
+            if(ideas[i].id == _id){
+                return ideas[i];
+            }
+          }
+        }
 
     // function getIdeas () public view returns (Idea[] memory){
     //     return ideas;
