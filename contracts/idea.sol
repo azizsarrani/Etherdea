@@ -17,9 +17,7 @@ contract Idea is ERC721 {
     uint ideaIdCounter=0;
     idea[] ideas;//the array that contain all of the ideas
 
-    function getSender () public view returns(address){
-    return msg.sender;
-    }
+    
     function addIdea( string memory _ideaType, string memory _content, string memory _category, uint _initialValue, bool _setForSale) public {
         require(!_exists(ideaIdCounter),"IDEA CONTRACT ERROR: Idea ID already exists");
         _mint(msg.sender, ideaIdCounter);
@@ -32,11 +30,16 @@ contract Idea is ERC721 {
 
 
 
-    function getIdea(uint _id)public view returns(Idea memory){
+    function getIdea(uint _id)public view returns( string memory ideaType,
+        string memory content,
+        string memory category,
+        uint initialValue,
+        uint actualValue,
+        bool setForSale) {
         require(_id > 0,"IDEA CONTRACT ERROR: Idea ID cann't be negitive value");
         for (uint i = 0; i<ideas.length; i++){
             if(ideas[i].id == _id){
-                return ideas[i];
+            return (ideas[i].ideaType, ideas[i].content, ideas[i].category, ideas[i].initialValue, ideas[i].actualValue, ideas[i].setForSale) ;
             }
           }
         }
