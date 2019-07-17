@@ -1,61 +1,85 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Job Application Form</title>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-    <link href="./css/form.css" rel="stylesheet" type="text/css">  </head>
-  <body>
-    <div class="testbox">
-      <form action="/">
-        <div class="banner">
-          <h1>Post your idea</h1>
+
+<head>
+  <title>Add Idea Form</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+    crossorigin="anonymous">
+    <script src="http://js.nicedit.com/nicEdit-latest.js"></script>
+    <script>
+      bkLib.onDomLoaded(function()
+      {  
+      new nicEditor().panelInstance('NicEdit');
+      });
+      </script>
+  <link href="./css/form.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+  <div class="testbox">
+    <form action="/">
+      <div class="banner">
+        <h1>Post your idea</h1>
+      </div>
+      <div class="item">
+        <p>Idea title:<span class="required">*</span></p>
+        <div class="name-item">
+          <input id="title" type="text" name="idea_title" placeholder="" required />
         </div>
+      </div>
+      <div class="contact-item">
         <div class="item">
-          <p>Idea title:<span class="required">*</span></p>
-          <div class="name-item">
-            <input type="text" name="idea_title" placeholder="" required/>
-          </div>
+          <p>Initial value <span class="required">*</span></p>
+          <input type="text" id="initialValue" name="value" required="">
         </div>
-        <div class="contact-item">
-          <div class="item">
-            <p>initial value <span class="required">*</span></p>
-            <input type="text" name="value" required="">
-          </div>
-        </div>
-        
-        <div class="position-item">
-          <div class="item">
-            <p>What is your idea<span class="required">*</span></p>
-            <select required>
-              <option value="1">App</option>
-              <option value="2">Design</option>
-              <option value="3">Research</option>
-            </select>
-          </div>
-        </div>
+      </div>
+
+      <div class="position-item">
         <div class="item">
-          <p>attach any file of the idea:</p>
-          <input type="text" name="providing"/>
-  <input type="file" name="file" accept="file/*">
+          <p>What is your idea<span class="required">*</span></p>
+          <select id="ideaType" required>
+            <option value="App">App</option>
+            <option value="Design">Design</option>
+            <option value="Research">Research</option>
+          </select>
         </div>
-        <div class="question">
-          <p>Would you like to set the idea for sale? </p>
-          <div class="question-answer">
-            <div>
-              <input type="radio" value="none" id="radio_5" name="references" />
-              <label for="radio_5" class="radio"><span>Yes</span></label>
-            </div>
-            <div>
-              <input type="radio" value="none" id="radio_6" name="references" />
-              <label for="radio_6" class="radio"><span>No</span></label>
-            </div>
+      </div>
+      <div class="item">
+        <p>attach any file of the idea:</p>
+        <input type="file" name="file" accept="file/*">
+      </div>
+      <h2>What is your idea?</h2>
+      <textarea id="NicEdit" cols="100" rows="20" placeholder="Add Your Idea Here"></textarea>
+
+      <div class="question">
+        <p>Would you like to set the idea for sale? </p>
+        <div class="question-answer">
+          <div>
+            <input type="radio" value="True" id="radio_5" name="references" />
+            <label for="radio_5" class="radio"><span>Yes</span></label>
+          </div>
+          <div>
+            <input type="radio" value="False" id="radio_6" name="references" />
+            <label for="radio_6" class="radio"><span>No</span></label>
           </div>
         </div>
-        <div class="btn-block">
-          <button type="submit" href="/">Post the idea</button>
-        </div>
-      </form>
-    </div>
-  </body>
+      </div>
+      <div class="btn-block">
+        <button id="addIdeaBtn" type="submit" href="/">Post the idea</button>
+      </div>
+    </form>
+  </div>
+
+
+     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+     <!-- Include all compiled plugins (below), or include individual files as needed -->
+     <script src="js/bootstrap.min.js"></script>
+     <script src="js/web3.min.js"></script>
+     <script src="js/truffle-contract.js"></script>
+     <script src="js/app.js"></script>
+  
+</body>
+
 </html>
