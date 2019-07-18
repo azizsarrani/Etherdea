@@ -112,7 +112,7 @@ App = {
             $('#ideaType').html(result[1]);
             $('#ideaContent').html(result[2]);
             $('#ideaValue').html(result[4].c[0]);
-         $('#ideaActualValue').html(result[5].c[0]);
+           $('#ideaActualValue').html(result[5].c[0]);
             $("#buyBtn").attr("disabled", result[6]);
         }).catch(function(err) {
           console.log(err.message);
