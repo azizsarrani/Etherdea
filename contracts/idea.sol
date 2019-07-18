@@ -1,4 +1,4 @@
-pragma solidity ^0.5.0;
+pragma solidity ^0.5.8;
 // pragma experimental ABIEncoderV2; //to return ideatype
 
 import "/Users/omamah/Etherdea/Etherdea/node_modules/openzeppelin-solidity/contracts/token/ERC721/ERC721.sol";
@@ -6,6 +6,7 @@ import "/Users/omamah/Etherdea/Etherdea/node_modules/openzeppelin-solidity/contr
 contract Idea is ERC721 {
     struct idea{
         uint id;
+        string ideaTitle;
         string ideaType;
         string content;
         string category;
@@ -17,12 +18,11 @@ contract Idea is ERC721 {
     uint ideaIdCounter=0;
     idea[] ideas;//the array that contain all of the ideas
 
-    
-    function addIdea( string memory _ideaType, string memory _content, string memory _category, uint _initialValue, bool _setForSale) public {
+    function addIdea(string memory _ideaTitle, string memory _ideaType, string memory _content, string memory _category, uint _initialValue, bool _setForSale) public {
         require(!_exists(ideaIdCounter),"IDEA CONTRACT ERROR: Idea ID already exists");
         _mint(msg.sender, ideaIdCounter);
         //the actualValue will be 0 at first
-        idea memory newIdea = idea(ideaIdCounter, _ideaType, _content,_category, _initialValue,0, _setForSale);
+        idea memory newIdea = idea(ideaIdCounter, _ideaTitle, _ideaType, _content,_category, _initialValue,0, _setForSale);
         ideas.push(newIdea);
         ideaIdCounter++;
     }
@@ -30,16 +30,15 @@ contract Idea is ERC721 {
 
 
 
-    function getIdea(uint _id)public view returns( string memory ideaType,
+    function getIdea(uint _id)public view returns( string memory title,string memory ideaType,
         string memory content,
         string memory category,
         uint initialValue,
         uint actualValue,
         bool setForSale) {
-        require(_id > 0,"IDEA CONTRACT ERROR: Idea ID cann't be negitive value");
         for (uint i = 0; i<ideas.length; i++){
             if(ideas[i].id == _id){
-            return (ideas[i].ideaType, ideas[i].content, ideas[i].category, ideas[i].initialValue, ideas[i].actualValue, ideas[i].setForSale) ;
+            return (ideas[i].ideaTitle, ideas[i].ideaType, ideas[i].content, ideas[i].category, ideas[i].initialValue, ideas[i].actualValue, ideas[i].setForSale) ;
             }
           }
         }

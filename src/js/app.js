@@ -79,9 +79,7 @@ App = {
 
       App.contracts.Idea.deployed().then(function(instance) {
         ideaInstance = instance;
-        let sender=ideaInstance.getSender()
-        console.log(sender);
-        return ideaInstance.addIdea(ideaType.toString(),"content" ,title.toString()  , initialValue, setForSale );
+        return ideaInstance.addIdea(title.toString(),ideaType.toString(),"content" ,"category"  , initialValue, setForSale );
       }).then(function(result) {
         alert('Added Successful!');
         //return App.getBalances();
