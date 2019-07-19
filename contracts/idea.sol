@@ -43,8 +43,8 @@ contract Idea is ERC721 {
           }
         }
 
-    function getIdeas () public view returns (idea[] memory){
-        return ideas;
+    function getIdeasLength () public view returns (uint){
+        return ideas.length;
     }
 
 

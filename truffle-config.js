@@ -11,4 +11,8 @@ module.exports = {
       port: 8545
     }
   }
+  ,
+  node: {
+    fs: 'empty'
+  }
 };

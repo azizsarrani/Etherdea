@@ -1,7 +1,7 @@
+
 App = {
     web3Provider: null,
     contracts: {},
-    fs = require('fs'),
 
     init: function () {
         return App.initWeb3();
@@ -81,6 +81,9 @@ App = {
     },
 
     writeToJson: async function () {
+
+        var fs = require('fs');
+
         //read the json file 
         fs.readFile('./ideas.json', 'utf8', function (err, data) {
             if (err) {
@@ -89,15 +92,18 @@ App = {
                 //convert fs data into json object
                 const file = JSON.parse(data);
                
-
                     App.contracts.Idea.deployed().then(function (instance) {
                         ideaContractInstance = instance;
 
-                        return ideaContractInstance.getIdeas();
+                        for (let i=0;i<=ideaContractInstance.getIdeasLength() ; i++){
+                            let idea = ideaContractInstance.getIdea();
+                            console.log(idea);
+                            file.ideas.push({ "id": title1, "title": 2018, "type": this, "actualValue": 1, "Value": 3, "forSale": true });
+                        }
                     }).then(function (result) {
                         console.log(result)
                         //add ideas into ideas array in the ideas.json
-                        file.ideas.push({ "id": title1, "title": 2018, "type": this, "actualValue": 1, "Value": 3, "forSale": true });
+                        //file.ideas.push({ "id": title1, "title": 2018, "type": this, "actualValue": 1, "Value": 3, "forSale": true });
 
                     }).catch(function (err) {
                         console.log(err.message);
