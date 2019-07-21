@@ -1,5 +1,5 @@
 pragma solidity ^0.5.8;
-pragma experimental ABIEncoderV2; //to return ideatype
+//pragma experimental ABIEncoderV2; //to return ideatype
 
 import "/Users/omamah/Etherdea/Etherdea/node_modules/openzeppelin-solidity/contracts/token/ERC721/ERC721.sol";
 
@@ -27,9 +27,9 @@ contract Idea is ERC721 {
         ideaIdCounter++;
     }
 
-    function getMsg() public returns (address){
-        return msg.sender;
-    }
+    // function getMsg() public returns (address){
+    //     return msg.sender;
+    // }
 
 
 

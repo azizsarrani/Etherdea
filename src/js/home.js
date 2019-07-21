@@ -3,7 +3,6 @@ App = {
     web3Provider: null,
     contracts: {},
 
-
     init: function () {
         return App.initWeb3();
     },
@@ -62,8 +61,8 @@ App = {
     initJson: async function () {
         // Load ideas.
         //$.getJSON('/Users/omamah/Etherdea/Etherdea/ideas.json', function (data) {
-        var ideaRow = $('.card');
-        var ideaTemplate = $('.card-wrapper');
+        var ideaRow = $('#ideasRow');
+        var ideaTemplate = $('#ideaTemplate');
 
         for (i = 0; i < data.length; i++) {
             ideaTemplate.find('#ideaTitle').text(data[i].title);
@@ -81,31 +80,42 @@ App = {
 
     writeToJson: async function () {
 
-        var fs = require('fs');
+        //var fs = require('fs');
 
         //read the json file 
-        fs.readFile('/Users/omamah/Etherdea/Etherdea/ideas.json', 'utf8', function (err, data) {
-            if (err) {
-                console.log(err)
-            } else {
+        // fs.readFile('/Users/omamah/Etherdea/Etherdea/ideas.json', 'utf8', function (err, data) {
+        //     if (err) {
+        //         console.log(err)
+        //     } else {
                 //convert fs data into json object
-                const file = JSON.parse(data);
-
+               // const file = JSON.parse(data);
+               var ideaRow = $('#ideasRow');
+               var ideaTemplate = $('#ideaTemplate');
                 App.contracts.Idea.deployed().then(function (instance) {
                     ideaContractInstance = instance;
-                    let length = ideaContractInstance.getIdeasLength();
+                    var length;
+                    ideaContractInstance.getIdeasLength().then(function (result) {
+                        
+                          length=result.c[0]});
+                          console.log(length); 
                     //console.log(ideaContractInstance.getMsg());
                     //=length["PromiseValue"].c[0];
-                    console.log(length)
-                    for (let i = 0; i < ideaContractInstance.getIdeasLength(); i++) {
-                        console.log("inside if")
-
-                        let idea = ideaContractInstance.getIdea(i);
+                    for (let i = 0; i < length; i++) {
+                        ideaContractInstance.getIdea(i).then(function(idea){
                         console.log(idea);
-                        file.ideas.push({ "id": i, "title": idea[0], "type": idea[1], "actualValue": idea[5].c[0], "Value": idea[4].c[0], "forSale": idea[6] });
+                        var ideaRow = $('#ideasRow');
+                        var ideaTemplate = $('#ideaTemplate');
+                        ideaTemplate.find('#ideaTitle').text(idea[0]);
+                        ideaTemplate.find('#ideaType').text(idea[1]);
+                        ideaTemplate.find('#value').text(idea[4].c[0]);
+                        ideaTemplate.find('#actualValue').text(idea[5].c[0]);
+                        ideaTemplate.find('#buyBtn').attr('disabled', idea[6]);
+            
+                        ideaRow.append(ideaTemplate.html());
+                    });
                     }
                 }).then(function (result) {
-                    //console.log(result)
+                    //console.log("everything ok")
                     //add ideas into ideas array in the ideas.json
                     //file.ideas.push({ "id": title1, "title": 2018, "type": this, "actualValue": 1, "Value": 3, "forSale": true });
 
@@ -122,14 +132,12 @@ App = {
                 //         //Everything went OK!
                 //     }
                 // });
-            }
-        });
+           // }
+      //  });
         }
-
             //     });
             //     return App.initJson();
             // },
-
 
         };
 
