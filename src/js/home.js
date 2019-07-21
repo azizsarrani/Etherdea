@@ -3,6 +3,7 @@ App = {
     web3Provider: null,
     contracts: {},
 
+
     init: function () {
         return App.initWeb3();
     },
@@ -31,8 +32,6 @@ App = {
 
         return App.initContract();
     },
-
-
     initContract: function () {
         $.getJSON('Idea.json', function (data) {
             // Get the necessary contract artifact file and instantiate it with truffle-contract.
@@ -62,20 +61,20 @@ App = {
 
     initJson: async function () {
         // Load ideas.
-        $.getJSON('../pets.json', function (data) {
-            var ideaRow = $('#ideaRow');
-            var ideaTemplate = $('#col-md-12');
+        //$.getJSON('/Users/omamah/Etherdea/Etherdea/ideas.json', function (data) {
+        var ideaRow = $('.card');
+        var ideaTemplate = $('.card-wrapper');
 
-            for (i = 0; i < data.length; i++) {
-                ideaTemplate.find('#ideaTitle').text(data[i].name);
-                ideaTemplate.find('#ideaType').attr('src', data[i].picture);
-                ideaTemplate.find('#value').text(data[i].breed);
-                ideaTemplate.find('#actualValue').text(data[i].age);
-                ideaTemplate.find('#buyBtn').attr('data-id', data[i].id);
+        for (i = 0; i < data.length; i++) {
+            ideaTemplate.find('#ideaTitle').text(data[i].title);
+            ideaTemplate.find('#ideaType').text(data[i].type);
+            ideaTemplate.find('#value').text(data[i].value);
+            ideaTemplate.find('#actualValue').text(data[i].actualValue);
+            ideaTemplate.find('#buyBtn').attr('disabled', data[i].forSale);
 
-                ideaRow.append(ideaTemplate.html());
-            }
-        });
+            ideaRow.append(ideaTemplate.html());
+        }
+        //});
 
         return await App.initWeb3();
     },
@@ -85,50 +84,57 @@ App = {
         var fs = require('fs');
 
         //read the json file 
-        fs.readFile('./ideas.json', 'utf8', function (err, data) {
+        fs.readFile('/Users/omamah/Etherdea/Etherdea/ideas.json', 'utf8', function (err, data) {
             if (err) {
                 console.log(err)
             } else {
                 //convert fs data into json object
                 const file = JSON.parse(data);
-               
-                    App.contracts.Idea.deployed().then(function (instance) {
-                        ideaContractInstance = instance;
 
-                        for (let i=0;i<=ideaContractInstance.getIdeasLength() ; i++){
-                            let idea = ideaContractInstance.getIdea();
-                            console.log(idea);
-                            file.ideas.push({ "id": title1, "title": 2018, "type": this, "actualValue": 1, "Value": 3, "forSale": true });
-                        }
-                    }).then(function (result) {
-                        console.log(result)
-                        //add ideas into ideas array in the ideas.json
-                        //file.ideas.push({ "id": title1, "title": 2018, "type": this, "actualValue": 1, "Value": 3, "forSale": true });
+                App.contracts.Idea.deployed().then(function (instance) {
+                    ideaContractInstance = instance;
+                    let length = ideaContractInstance.getIdeasLength();
+                    //console.log(ideaContractInstance.getMsg());
+                    //=length["PromiseValue"].c[0];
+                    console.log(length)
+                    for (let i = 0; i < ideaContractInstance.getIdeasLength(); i++) {
+                        console.log("inside if")
 
-                    }).catch(function (err) {
-                        console.log(err.message);
-                    });
-               
-                const json = JSON.stringify(file);
-
-                fs.writeFile('./ideas.json', json, 'utf8', function (err) {
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        //Everything went OK!
+                        let idea = ideaContractInstance.getIdea(i);
+                        console.log(idea);
+                        file.ideas.push({ "id": i, "title": idea[0], "type": idea[1], "actualValue": idea[5].c[0], "Value": idea[4].c[0], "forSale": idea[6] });
                     }
+                }).then(function (result) {
+                    //console.log(result)
+                    //add ideas into ideas array in the ideas.json
+                    //file.ideas.push({ "id": title1, "title": 2018, "type": this, "actualValue": 1, "Value": 3, "forSale": true });
+
+                }).catch(function (err) {
+                    console.log(err.message);
                 });
+
+                //const json = JSON.stringify(file);
+
+                // fs.writeFile('/Users/omamah/Etherdea/Etherdea/ideas.json', json, 'utf8', function (err) {
+                //     if (err) {
+                //         console.log(err);
+                //     } else {
+                //         //Everything went OK!
+                //     }
+                // });
             }
-
         });
-        return App.initJson();
-    },
+        }
+
+            //     });
+            //     return App.initJson();
+            // },
 
 
-};
+        };
 
-$(function () {
-    $(window).load(function () {
-        App.init();
-    });
-});
+        $(function () {
+            $(window).load(function () {
+                App.init();
+            });
+        });

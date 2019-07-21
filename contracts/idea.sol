@@ -27,6 +27,10 @@ contract Idea is ERC721 {
         ideaIdCounter++;
     }
 
+    function getMsg() public returns (address){
+        return msg.sender;
+    }
+
 
 
 
@@ -44,7 +48,7 @@ contract Idea is ERC721 {
         }
 
     function getIdeasLength () public view returns (uint){
-        return ideas.length;
+        return uint(ideas.length);
     }
 
 
